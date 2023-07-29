@@ -11,7 +11,7 @@ then the sorting process will also be long
 
 - sorting process requires an internet connection
 
-- sorting uses the API from my own hosting, if it not function you can report it in the [issue](https://github.com/Stalker-moment/Generate-Random-Phone-Number/issues)
+- sorting uses the API from my own hosting, if it not function you can report it in the [issues](https://github.com/Stalker-moment/Generate-Random-Phone-Number/issues)
 
 ## Install
 Clone this project
