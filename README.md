@@ -24,14 +24,12 @@ Install the dependencies:
 ```bash
 > npm start
 ```
-or
+ or
 ```bash
 > node pickernumber.js
 ```
 
 2. force stop the code
-
-using npm :
 ```bash
 > ctrl + c
 ```
