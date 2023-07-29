@@ -1,0 +1,13 @@
+{
+    "target_number":100,
+    "operator_mode":1,
+    "prefix_mode":6,
+    "digit_number":12,
+    "pathdata":"./json-output/phone.json",
+    "pathtxt":"./txt-output/phone.txt",
+    "pathsortedjson":"./json-output/wa-valid.json",
+    "pathsortedtxt":"./txt-output/wa-valid.txt",
+    "CLI_MODE":true,
+    "TXT_OUTPUT":true,
+    "SORTING_WA":true
+}
