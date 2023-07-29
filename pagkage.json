@@ -1,0 +1,48 @@
+{
+  "name": "Generate-Random-Phone-Number",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node pickernumber.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stalker-moment",
+  "license": "",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bent": "^7.3.10",
+    "file-type": "^15.0.1",
+    "form-data": "^4.0.0",
+    "fs-extra": "^9.0.1",
+    "got": "^11.7.0",
+    "needle": "^2.5.2",
+    "node-cron": "^2.0.3",
+    "node-fetch": "^2.6.1",
+    "node-gtts": "^2.0.2",
+    "request": "^2.88.2",
+    "scanf": "^1.1.2",
+  },
+  "directories": {
+    "json-output": "json-output",
+    "txt-output": "txt-output"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TierKun/Whatsapp-Bot-IoT",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.9.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "keywords": [
+    "Whatsapp-Bot"
+  ],
+  "bugs": {
+    "url": "https://github.com/Stalker-moment/Generate-Random-Phone-Number/issues"
+  },
+  "homepage": "https://github.com/Stalker-moment/Generate-Random-Phone-Number/"
+}
