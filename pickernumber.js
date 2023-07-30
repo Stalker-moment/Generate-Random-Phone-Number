@@ -62,7 +62,7 @@ if(CLI_MODE == false){
 if (neededdigit > 8 && neededdigit < 14){
     var digit = neededdigit - 4
 } else {
-    return console.loh('bad digit')
+    return console.log('bad digit')
 }
 
 function get_random(arraynya) {
@@ -90,7 +90,6 @@ function readJsonFile(filename) {
   }
 }
 
-// Fungsi untuk menulis data ke file JSON
 function writeJsonFile(filename, data) {
   try {
     fs.writeFileSync(filename, JSON.stringify(data, null, 2));
@@ -98,6 +97,21 @@ function writeJsonFile(filename, data) {
   } catch (err) {
     console.error('Error writing JSON file:', err);
   }
+}
+
+function konversiDetikKeFormatWaktu(detik) {
+  const hari = Math.floor(detik / (24 * 3600));
+  let sisaDetik = detik % (24 * 3600);
+
+  const jam = Math.floor(sisaDetik / 3600);
+  sisaDetik %= 3600;
+
+  const menit = Math.floor(sisaDetik / 60);
+  sisaDetik %= 60;
+
+  const detikSisa = sisaDetik;
+
+  return `${hari}:${jam}:${menit}:${detikSisa}`;
 }
 
 const prefixnumber = ['08', '628', '+628'];
@@ -110,29 +124,48 @@ const opthree = ['95', '96', '97', '98', '99']
 const opsmart = ['81', '82', '83', '84', '85', '86', '87', '88', '89']
 const extendwa = 'https://wa.me/'
 
+const colorCodes = {
+  reset: "\x1b[0m",
+  black: "\x1b[30m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  magenta: "\x1b[35m",
+  cyan: "\x1b[36m",
+  white: "\x1b[37m"
+};
+
 for (let i = 0; i < target; i++) {
 
   if (mode == 1){ //all operator
     var getoperatornumber = get_random(alloperatorprefix);
     var get9digitrandom = generateRandomNumber(digit);
+    var indexoperator = `All Random`
   } else if(mode == 2){ //op telkom
     var getoperatornumber = get_random(optelkom);
     var get9digitrandom = generateRandomNumber(digit);
+    var indexoperator = `Telkomsel`
   } else if(mode == 3){ //op indosat
     var getoperatornumber = get_random(opindosat);
     var get9digitrandom = generateRandomNumber(digit);
+    var indexoperator = `Indosat`
   } else if(mode == 4){ //op xl
     var getoperatornumber = get_random(opxl);
     var get9digitrandom = generateRandomNumber(digit);
+    var indexoperator = `XL`
   } else if(mode == 5){ //op axis
     var getoperatornumber = get_random(opaxis);
     var get9digitrandom = generateRandomNumber(digit);
+    var indexoperator = `Axis`
   } else if(mode == 6){ //op three
     var getoperatornumber = get_random(opthree);
     var get9digitrandom = generateRandomNumber(digit);
+    var indexoperator = `Three`
   } else if(mode == 7){ //op smartfreen
     var getoperatornumber = get_random(opsmart);
     var get9digitrandom = generateRandomNumber(digit);
+    var indexoperator = `Smartfreen`
   } else{
     return console.log('choice mode first')
   }
@@ -140,21 +173,27 @@ for (let i = 0; i < target; i++) {
   if(advancemode == 1){ //random prefix number
     var getrandomnumber = get_random(prefixnumber);
     var databaru = `${getrandomnumber}${getoperatornumber}${get9digitrandom}`;
+    var indexprefix = `Random (08xx, 628xx, +628xx)`
   } else if(advancemode == 2){ //08 prefix number
     var getrandomnumber = '08'
     var databaru = `${getrandomnumber}${getoperatornumber}${get9digitrandom}`;
+    var indexprefix = `08xx`
   } else if(advancemode == 3){ //628 prefixnumber
     var getrandomnumber = '628'
     var databaru = `${getrandomnumber}${getoperatornumber}${get9digitrandom}`;
+    var indexprefix = `628xx`
   } else if(advancemode == 4){ //+628 prefixnumber
     var getrandomnumber = '+628'
     var databaru = `${getrandomnumber}${getoperatornumber}${get9digitrandom}`;
+    var indexprefix = `628xx`
   } else if(advancemode == 5){ //generate WA link
     var getrandomnumber = '628'
     var databaru = `${extendwa}${getrandomnumber}${getoperatornumber}${get9digitrandom}`;
+    var indexprefix = `wa.me/628xx`
   } else if(advancemode == 6){ //generate WA id (wa-automate)
     var getrandomnumber = '628'
     var databaru = `${getrandomnumber}${getoperatornumber}${get9digitrandom}@c.us`;
+    var indexprefix = `628xx@c.us`
   } else {
     return console.log('please choice advance mode')
   }
@@ -167,7 +206,6 @@ for (let i = 0; i < target; i++) {
   console.log(databaru);
 }
 
-// Menyimpan dataArray dalam file JSON
 const jsonData = JSON.stringify(dataArray, null, 2);
 fs.writeFileSync(pathdata, jsonData);
 
@@ -181,29 +219,38 @@ async function processSorting() {
   const jsonData = readJsonFile(pathdata);
   const newData = [];
   let count = 0;
-  
-  // Loop melalui setiap nomor dan cek statusnya
+  let count2 = 0
+  let kurangitarget = target
+
   for (const data of jsonData) {
     const getnum = await checknum(data)
-    console.log(getnum)
+    count2 = count2+1
+    kurangitarget = kurangitarget - 1;
+    const hasilKonversi = konversiDetikKeFormatWaktu(kurangitarget);
     if (getnum == true) {
       newData.push(extendwa+data);
       count = count + 1;
+      var txtstatus = `${count2}/${target} - ${colorCodes.green}${getnum}${colorCodes.reset} - ETA : ${hasilKonversi} ${colorCodes.green}<- VALID ${colorCodes.reset}`
+    } else {
+      var txtstatus = `${count2}/${target} - ${colorCodes.red}${getnum}${colorCodes.reset} - ETA : ${hasilKonversi}`
+    }
+      console.log(txtstatus)
 
       if (TXT_OUTPUT == true) {
         fs.appendFileSync(pathsortedtxt, '\n' + extendwa+data);
       }
     }
-  }
 
+  var persentase = (count / target) * 100;
   writeJsonFile(pathsortedjson, newData);
 
   if (TXT_OUTPUT == true) {
-    console.log(`Sorting Nomor WA Selesai\nData telah disimpan dalam file ${pathsortedjson} dan ${pathsortedtxt}\nJangan disalahgunakan, hanya untuk implementasi system sorting\n\n-----------------------------------------------\n\n${count} number valid of ${target}\n\n-----------------------------------------------`);
+    console.log(`Sorting Nomor WA Selesai\nData telah disimpan dalam file ${pathsortedjson} dan ${pathsortedtxt}\nJangan disalahgunakan, hanya untuk implementasi system sorting\n\n-----------------------------------------------\n\n${colorCodes.green}${count}${colorCodes.reset} number valid of ${colorCodes.blue}${target}${colorCodes.reset}\nPersentase : ${colorCodes.magenta}${persentase} %${colorCodes.reset}\n\n===== Done Run Config =====\nGenerate Number : ${target}\nDigit Of Number : ${neededdigit}\nOperator : ${indexoperator}\nPrefix Number : ${indexprefix}\n\n-----------------------------------------------`);
   } else {
-    console.log(`Sorting Nomor WA Selesai\nData telah disimpan dalam file ${pathsortedjson}\nJangan disalahgunakan, hanya untuk implementasi system sorting\n\n-----------------------------------------------\n\n${count} number valid of ${target}\n\n-----------------------------------------------`);
+    console.log(`Sorting Nomor WA Selesai\nData telah disimpan dalam file ${pathsortedjson}\nJangan disalahgunakan, hanya untuk implementasi system sorting\n\n-----------------------------------------------\n\n${colorCodes.green}${count}${colorCodes.reset} number valid of ${colorCodes.blue}${target}${colorCodes.reset}\nPersentase : ${colorCodes.magenta}${persentase} %${colorCodes.reset}\n\n===== Done Run Config =====\nGenerate Number : ${target}\nDigit Of Number : ${neededdigit}\nOperator : ${indexoperator}\nPrefix Number : ${indexprefix}\n\n-----------------------------------------------`);
   }
 }
+
 
 // Panggil fungsi processSorting dengan async/await
 (async () => {
@@ -215,5 +262,3 @@ async function processSorting() {
     }
   }
 })();
-
-
