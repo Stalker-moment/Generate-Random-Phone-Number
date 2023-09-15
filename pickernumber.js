@@ -76,7 +76,7 @@ function generateRandomNumber(length) {
 }
 
 async function checknum(number){
-  const data = await axios.get(`https://male-than-angola-pull.trycloudflare.com/checkNumberStatus?number=`+number); //API VALIDATOR WA
+  const data = await axios.get(`https://numbercheck.tierkun.online/checkNumberStatus?number=`+number); //API VALIDATOR WA
   return data.data.status.canReceiveMessage
 }
 
